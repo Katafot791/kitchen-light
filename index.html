@@ -73,7 +73,12 @@
     <div class="container">
         <h1>IlArt Kitchen Light</h1>
         <p class="subtitle">Когда лень идти до выключателя</p>
-        <button id="connectBtn" class="btn">Подключить по BLE</button>
+        <!-- Кнопка подключения BLE (уже есть у вас) -->
+<button id="connectBtn" class="btn">Подключить по BLE</button>
+
+<!-- НОВАЯ: Скрытая кнопка установки PWA (появится только если установка доступна) -->
+<button id="installPwaBtn" class="btn" style="display: none; background: #66fcf1; color: #0b0c10;">УСТАНОВИТЬ КАК ПРИЛОЖЕНИЕ</button>
+
         <div class="monitor">
             <div id="statusBadge" class="status-badge empty">Ожидание подключения...</div>
             <div class="metrics">
@@ -199,6 +204,35 @@
                 }
             }
         }
+    
+    let deferredPrompt;
+const installBtn = document.getElementById('installPwaBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Предотвращаем автоматическое появление системного окна Chrome
+    e.preventDefault();
+    // Сохраняем событие, чтобы вызвать его по кнопке
+    deferredPrompt = e;
+    // Показываем нашу красивую хайтек-кнопку на экране
+    installBtn.style.display = 'block';
+});
+
+async function installApp() {
+    if (!deferredPrompt) return;
+    // Показываем системное окно установки Android
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`Результат установки: ${outcome}`);
+    // Очищаем переменную, кнопка больше не нужна
+    deferredPrompt = null;
+    installBtn.style.display = 'none';
+}
+
+// Привязываем клик к нашей кнопке
+installBtn.addEventListener('click', installApp);
+
+    
+    
     </script>
 </body>
 </html>
