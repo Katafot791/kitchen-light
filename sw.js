@@ -1,40 +1,28 @@
-const CACHE_NAME = 'ilart-light-v2';
-// Кэшируем только корень, манифест и саму страницу
-const assets = [
-  './',
-  './index.html',
-  './manifest.json'
-];
+const CACHE_NAME = 'ilart-light-v3';
+const assets = ['./index.html', './manifest.json'];
 
-// Установка воркера и жесткое кэширование файлов
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(assets);
-    }).then(() => self.skipWaiting()) // Активируем воркер сразу
+    caches.open(CACHE_NAME).then(cache => cache.addAll(assets))
   );
 });
 
-// Активация и очистка старых версий кэша
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      );
-    }).then(() => self.clients.claim())
-  );
-});
-
-// Работа в ОФЛАЙНЕ: если интернета нет, берем данные строго из памяти телефона
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      return cachedResponse || fetch(event.request);
-    })
+    caches.match(event.request).then(res => res || fetch(event.request))
+  );
+});
+const CACHE_NAME = 'ilart-light-v3';
+const assets = ['./index.html', './manifest.json'];
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(assets))
+  );
+});
+
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request).then(res => res || fetch(event.request))
   );
 });
