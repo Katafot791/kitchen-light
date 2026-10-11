@@ -231,7 +231,15 @@ async function installApp() {
 // Привязываем клик к нашей кнопке
 installBtn.addEventListener('click', installApp);
 
-    
+    // Обязательный блок регистрации Service Worker для активации кнопки "Установить" в Chrome
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('PWA успешно активирован!'))
+            .catch(err => console.log('Ошибка активации PWA:', err));
+    });
+}
+
     
     </script>
 </body>
