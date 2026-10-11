@@ -1,5 +1,10 @@
-const CACHE_NAME = 'ilart-light-v4';
-const assets = ['./index.html', './manifest.json', './icon.svg'];
+const CACHE_NAME = 'ilart-light-v5';
+const assets = [
+  '/kitchen-light/',
+  '/kitchen-light/index.html',
+  '/kitchen-light/manifest.json',
+  '/kitchen-light/icon.svg'
+];
 
 self.addEventListener('install', event => {
   event.waitUntil(
