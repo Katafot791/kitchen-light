@@ -1,19 +1,5 @@
-const CACHE_NAME = 'ilart-light-v3';
-const assets = ['./index.html', './manifest.json'];
-
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(assets))
-  );
-});
-
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(res => res || fetch(event.request))
-  );
-});
-const CACHE_NAME = 'ilart-light-v3';
-const assets = ['./index.html', './manifest.json'];
+const CACHE_NAME = 'ilart-light-v4';
+const assets = ['./index.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', event => {
   event.waitUntil(
